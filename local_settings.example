@@ -1,0 +1,5 @@
+API_TOKEN = ''
+PLUGINS = [
+    'khasbaht.plugins'
+]
+
