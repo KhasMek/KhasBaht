@@ -7,6 +7,15 @@ from khasbaht.helpers import cmd_builder, format_response
 from slackbot.bot import listen_to, respond_to
 
 
+@respond_to('^ping (.*)')
+def ping(message, params):
+    cmd = cmd_builder('ping', params)
+    results = subprocess.run(cmd, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
+    response, default_username = format_response(message,
+        stdout=results.stdout, stderr=results.stderr)
+    message.reply_webapi(str(response), as_user=default_username)
+
 @respond_to('^What is your external IP?', re.IGNORECASE)
 def get_external_ip(message):
     cmd = [ "dig", "+short", "myip.opendns.com", "@resolver1.opendns.com" ]
@@ -30,12 +39,3 @@ def get_internal_ip(message):
                     message.reply("```{}```".format(ip))
     if results.stderr:
         message.reply("```{}```".format(results.stderr))
-
-@respond_to('^ping (.*)')
-def ping(message, params):
-    cmd = cmd_builder('ping', params)
-    results = subprocess.run(cmd, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
-    response, default_username = format_response(message,
-        stdout=results.stdout, stderr=results.stderr)
-    message.reply_webapi(str(response), as_user=default_username)
