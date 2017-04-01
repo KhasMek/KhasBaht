@@ -33,7 +33,7 @@ def get_internal_ip(message):
 
 @respond_to('^ping (.*)')
 def ping(message, params):
-    cmd = cmd_builder("ping", params)
+    cmd = cmd_builder('ping', params)
     results = subprocess.run(cmd, stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, universal_newlines=True, shell=False)
     response, default_username = format_response(message,
