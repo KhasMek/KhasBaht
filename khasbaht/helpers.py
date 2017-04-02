@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 import re
 import subprocess
 
@@ -13,21 +12,23 @@ def cmd_builder(cmd, params):
     Combine all parts of a command into a list to pass over to
     subprocess.run.
     """
-    cmd = [ cmd ]
+    cmd = [cmd]
     if params:
         for param in params.split():
             param = url_checker(param)
             cmd.append(param)
     return cmd
 
+
 # TODO: this needs error checking.
 def cmd_runner(cmd, message):
     """Run the specified command built by cmd_builder()."""
     results = subprocess.run(cmd, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
+                             stderr=subprocess.PIPE, universal_newlines=True, shell=False)
     response, default_username = format_response(message,
-        stdout=results.stdout, stderr=results.stderr)
+                                                 stdout=results.stdout, stderr=results.stderr)
     return message.reply_webapi(str(response), as_user=default_username)
+
 
 def check_response(message, response):
     """
@@ -35,7 +36,7 @@ def check_response(message, response):
     longer than the user specified MAX_MESSAGE_LENGTH.
     """
     max_message_length = settings.MAX_MESSAGE_LENGTH if hasattr(settings,
-        'MAX_MESSAGE_LENGTH') else 50
+                                                                'MAX_MESSAGE_LENGTH') else 50
     if len(response.split('\n')) > max_message_length:
         fname = re.sub('-+', '-', re.sub('[^\w]', '-', message.body['text']))
         response = response.lstrip('```').rstrip('```')
@@ -46,12 +47,13 @@ def check_response(message, response):
     else:
         return response
 
+
 def format_response(message, **kwargs):
     """Clean up and properly format the response."""
     default_username = settings.DEFAULT_USERNAME if hasattr(settings,
-        'DEFAULT_USERNAME') else True
+                                                            'DEFAULT_USERNAME') else True
     response_set = ''
-    null_response = ("```No Response (it probably completely quietly).```")
+    null_response = "```No Response (it probably completely quietly).```"
     if kwargs.get('stdout'):
         response_set = True
         response = str("```{}```".format(kwargs.get('stdout')))
@@ -70,6 +72,7 @@ def format_response(message, **kwargs):
         return check_response(message, response), default_username
     if not response_set:
         return null_response, default_username
+
 
 def url_checker(param):
     """
