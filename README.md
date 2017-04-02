@@ -1,5 +1,7 @@
 # KHASBAHT
 
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/e853ba4ae16b4b02b74197188c10027b/badge.svg)](https://www.quantifiedcode.com/app/project/e853ba4ae16b4b02b74197188c10027b)
+
 My other terminal emulator is Slack.
 
 ---
