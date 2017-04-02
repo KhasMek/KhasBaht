@@ -2,6 +2,7 @@
 
 import os
 import re
+import subprocess
 
 from slackbot import settings
 from slackbot.utils import create_tmp_file
@@ -18,6 +19,15 @@ def cmd_builder(cmd, params):
             param = url_checker(param)
             cmd.append(param)
     return cmd
+
+# TODO: this needs error checking.
+def cmd_runner(cmd, message):
+    """Run the specified command built by cmd_builder()."""
+    results = subprocess.run(cmd, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
+    response, default_username = format_response(message,
+        stdout=results.stdout, stderr=results.stderr)
+    return message.reply_webapi(str(response), as_user=default_username)
 
 def check_response(message, response):
     """

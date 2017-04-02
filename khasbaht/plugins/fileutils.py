@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-import subprocess
 
-from khasbaht.helpers import cmd_builder, format_response
+from khasbaht.helpers import cmd_builder, format_response, cmd_runner
 from slackbot.bot import respond_to
 
 
@@ -15,31 +14,19 @@ def ls(message, params='.'):
     Flags accepted.
     """
     cmd = cmd_builder('ls', params)
-    results = subprocess.run(cmd, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
-    response, default_username = format_response(message,
-        stdout=results.stdout, stderr=results.stderr)
-    message.reply_webapi(str(response), as_user=default_username)
+    cmd_runner(cmd, message)
 
 @respond_to('^mkdir (.*)')
 def mkdir(message, params):
     """Create a new directory in the specified path. Flags accepted."""
     cmd = cmd_builder('mkdir', params)
-    results = subprocess.run(cmd, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
-    response, default_username = format_response(message,
-        stdout=results.stdout, stderr=results.stderr)
-    message.reply_webapi(str(response), as_user=default_username)
+    cmd_runner(cmd, message)
 
 @respond_to('^rm (.*)')
 def rm(message, params):
     """Delete specified file or directory. Flags accepted."""
     cmd = cmd_builder('rm', params)
-    results = subprocess.run(cmd, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
-    response, default_username = format_response(message,
-        stdout=results.stdout, stderr=results.stderr)
-    message.reply_webapi(str(response), as_user=default_username)
+    cmd_runner(cmd, message)
 
 @respond_to('^touch (.*)', re.IGNORECASE)
 def touch(message, file):
