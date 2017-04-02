@@ -8,6 +8,10 @@ from slackbot.utils import create_tmp_file
 
 
 def cmd_builder(cmd, params):
+    """
+    Combine all parts of a command into a list to pass over to
+    subprocess.run.
+    """
     cmd = [ cmd ]
     if params:
         for param in params.split():
@@ -15,15 +19,11 @@ def cmd_builder(cmd, params):
             cmd.append(param)
     return cmd
 
-def url_checker(param):
-    url = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
-    if re.search(url, param):
-        param = param.split('|', 1)[-1]
-        return param[:-1]
-    else:
-        return param
-
 def check_response(message, response):
+    """
+    Check the length of the response and send as an attachement if
+    longer than the user specified MAX_MESSAGE_LENGTH.
+    """
     max_message_length = settings.MAX_MESSAGE_LENGTH if hasattr(settings,
         'MAX_MESSAGE_LENGTH') else 50
     if len(response.split('\n')) > max_message_length:
@@ -37,6 +37,7 @@ def check_response(message, response):
         return response
 
 def format_response(message, **kwargs):
+    """Clean up and properly format the response."""
     default_username = settings.DEFAULT_USERNAME if hasattr(settings,
         'DEFAULT_USERNAME') else True
     response_set = ''
@@ -59,3 +60,14 @@ def format_response(message, **kwargs):
         return check_response(message, response), default_username
     if not response_set:
         return null_response, default_username
+
+def url_checker(param):
+    """
+    Check for URL's and clean them up from the crap that slack does.
+    """
+    url = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    if re.search(url, param):
+        param = param.split('|', 1)[-1]
+        return param[:-1]
+    else:
+        return param
