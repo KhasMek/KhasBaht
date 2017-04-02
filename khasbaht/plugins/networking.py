@@ -16,6 +16,15 @@ def ping(message, params):
         stdout=results.stdout, stderr=results.stderr)
     message.reply_webapi(str(response), as_user=default_username)
 
+@respond_to('^traceroute (.*)')
+def traceroute(message, params):
+    cmd = cmd_builder('traceroute', params)
+    results = subprocess.run(cmd, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, universal_newlines=True, shell=False)
+    response, default_username = format_response(message,
+        stdout=results.stdout, stderr=results.stderr)
+    message.reply_webapi(str(response), as_user=default_username)
+
 @respond_to('^What is your external IP?', re.IGNORECASE)
 def get_external_ip(message):
     cmd = [ "dig", "+short", "myip.opendns.com", "@resolver1.opendns.com" ]

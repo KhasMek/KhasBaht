@@ -84,15 +84,19 @@ Things you can say to KhasBaht and things it listens for.
 
 #### Trigger Phrases
 
-|            Phrase           |        Options        |    Type   |                                                                Details                                                                 |
-| --------------------------- | --------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| \^What is your external IP? |                       | Responder | Responds with the hosts external IP                                                                                                    |
-| \^What is your internal IP? |                       | Responder | Responds with hosts internal IP address(es)                                                                                            |
-| \^ping (.*)                 | -c $AMOUNT $HOST      | Responder | Pings specified host X times. You will have a bad time if you don't specify a number of pings with the -c flag                         |
-| \^touch (.*)                | $filename(s)          | Responder | Create an empty file with the specified name and extension                                                                             |
-| \^shell-cmd (.*)            | shell-command & flags | Responder | Execute the specified shell command on the host machine                                                                                |
-| \^Be a parrot (.**)         | responses to parrot   | Listener  | All the bots will parrot whatever options you post. This is basic and helpful for troubleshooting.                                     |
-| \^Everyone check in         |                       | Listener  | All of the bots in the channel will respond with the hostname of the machine they're running on and the username they're running under |
+|            Phrase           |                           Options                           |    Type   |                                                                Details                                                                 |
+| --------------------------- | ----------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| \^Be a parrot (.**)         | responses to parrot                                         | Listener  | All the bots will parrot whatever options you post. This is basic and helpful for troubleshooting.                                     |
+| \^Everyone check in         |                                                             | Listener  | All of the bots in the channel will respond with the hostname of the machine they're running on and the username they're running under |
+| \^ls (args optional)        | arguments are optional, if not '.' will be the assumed path | Responder | List files and directories                                                                                                             |
+| \^mkdir                     | directory name                                              | Responder | Create a new directory                                                                                                                 |
+| \^ping (.*)                 | -c $AMOUNT $HOST                                            | Responder | Pings specified host X times. You will have a bad time if you don't specify a number of pings with the -c flag                         |
+| \^rm                        | $file(s) or $dir(s)                                         | Responder | Delete specified file(s)/dir(s)                                                                                                        |
+| \^shell-cmd (.*)            | shell-command & flags                                       | Responder | Execute the specified shell command on the host machine                                                                                |
+| \^touch (.*)                | $filename(s)                                                | Responder | Create an empty file with the specified name and extension                                                                             |
+| \^traceroute                | $domain                                                     | Responder | Perform a traceroute to specified domain                                                                                               |
+| \^What is your external IP? |                                                             | Responder | Responds with the hosts external IP                                                                                                    |
+| \^What is your internal IP? |                                                             | Responder | Responds with hosts internal IP address(es)                                                                                            |
 
 #### Regex Legend
 
